@@ -1,12 +1,17 @@
 """Per-field comparison between extractor output and gold labels.
 
-Usage:
+Usage (from project root):
+    python -m scripts.inspect_quality data/synthetic_cases/case_003.txt
+    # or
     python scripts/inspect_quality.py data/synthetic_cases/case_003.txt
 """
 from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+
+# Ensure the project root is importable when running the script directly.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from mrm.extract import extract_inventory
 from mrm.validate import apply_guards
@@ -52,7 +57,10 @@ def main(txt_path_str: str) -> None:
         print(f"[must_not_be_stated] {field:<24} {got_status:<10} {flag:<10} {value}")
 
     print()
-    print(f"Accuracy: {correct}/{total} = {correct / total:.2f}" if total else "no expected fields")
+    if total:
+        print(f"Accuracy: {correct}/{total} = {correct / total:.2f}")
+    else:
+        print("No expected fields in gold.")
     print("Missing information:", record.missing_information)
     print("Contradictions:", record.contradictions)
     print("Follow-up questions:")
