@@ -10,7 +10,7 @@
     "data_sources": "stated",
     "output_variables": "stated",
     "downstream_uses": "stated",
-    "validation_status": "stated",
+    "validation_status": "unknown",
     "model_status": "stated",
     "monitoring_approach": "stated",
     "third_party_dependencies": "stated",
@@ -19,5 +19,5 @@
   "must_not_be_stated": [
     "last_validation_date"
   ],
-  "notes": "Two conflicting owner attributions (Anna Lindqvist vs Wholesale Modelling Team). The extractor is permitted to pick one \u2014 the first named owner with a title is a reasonable default \u2014 provided the contradiction is surfaced in the contradictions field or as a follow-up question."
+  "notes": "model_owner: source names two conflicting owners (Anna Lindqvist vs Wholesale Modelling Team). Extractor is permitted to pick one provided the conflict is surfaced somewhere. validation_status: source states a validation DATE (Q3 2024) but never a validation STATUS (e.g. 'validated', 'not yet validated'). The two are distinct fields; the extractor should leave validation_status unknown."
 }
