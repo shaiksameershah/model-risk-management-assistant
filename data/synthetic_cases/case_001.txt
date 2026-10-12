@@ -1,0 +1,19 @@
+The Retail Credit Scorecard (RC-2024-017) is a logistic regression model used by the
+Consumer Lending business function to estimate probability of default for unsecured
+personal loans at origination. The business owner is Priya Raman, Head of Consumer Credit.
+The model owner is Daniel Okafor, Senior Manager, Credit Analytics. The development team
+is the Credit Modelling Group.
+
+The model is developed in Python 3.11 and deployed on the internal scoring platform.
+Inputs are bureau attributes from Experian and internal application data. Outputs are a
+PD estimate on a 0-1 scale and a risk band. Downstream uses include pricing and limit
+assignment. The model was last validated on 2024-03-15.
+
+Key assumption: the relationship between bureau attributes and default is stable over a
+12-month horizon. Limitation: the model does not cover secured lending.
+
+The model is currently in production. Monitoring includes monthly PSI and quarterly
+discrimination review.
+
+We have not yet documented the third-party dependencies or the remediation actions
+from the last validation.
