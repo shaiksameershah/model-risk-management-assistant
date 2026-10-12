@@ -1,0 +1,21 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "stated",
+    "methodology": "stated",
+    "input_data": "stated",
+    "data_sources": "stated",
+    "output_variables": "stated",
+    "model_status": "stated",
+    "last_validation_date": "stated",
+    "monitoring_approach": "stated",
+    "known_weaknesses": "stated",
+    "remediation_actions": "stated"
+  },
+  "must_not_be_stated": [
+    "lifecycle_stage"
+  ],
+  "notes": "Lifecycle stage is never stated using that term; 'being sunset' and 'in a decommissioning state' imply it but the field name is not used. model_status IS stated ('decommissioning state'). remediation_actions IS stated ('no remediation is planned'). last_validation_date is a specific ISO-format date (2022-11-10)."
+}

@@ -1,0 +1,14 @@
+The Legacy Fraud Scoring Model (LFS-2018-003) is a logistic regression model
+that was historically used by the Fraud Operations function to score card-not-
+present transactions. The model is being sunset; the replacement model
+(NFS-2025-001) went live in January 2026, and LFS-2018-003 is scheduled for
+decommissioning at the end of Q1 2026.
+
+Inputs were historical transaction, merchant, and device attributes sourced from
+the payments data warehouse. Outputs were a fraud probability score (0-1) used to
+route transactions for manual review.
+
+The model was last validated on 2022-11-10. It is in a decommissioning state and
+no longer used for live decisions. Monitoring has been reduced to periodic review
+of residual traffic. Known weakness: degraded performance on newer payment types
+introduced after 2023; no remediation is planned because the model is being retired.
