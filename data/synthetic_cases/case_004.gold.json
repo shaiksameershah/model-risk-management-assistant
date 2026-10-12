@@ -1,0 +1,20 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "unknown",
+    "methodology": "unknown",
+    "input_data": "stated",
+    "data_sources": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "third_party_dependencies": "stated",
+    "model_status": "stated"
+  },
+  "must_not_be_stated": [
+    "methodology",
+    "proposed_risk_considerations"
+  ],
+  "notes": "Vendor-supplied. Methodology must remain unknown because the bank has no visibility. input_data and output_variables ARE stated because the bank can see them. Must-not-stated checks enforce that the extractor does not invent risk ratings. third_party_dependencies must be 'stated' \u2014 the source names Acme Surveillance Ltd as the vendor."
+}
