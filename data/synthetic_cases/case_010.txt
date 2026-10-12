@@ -1,0 +1,15 @@
+The Market Risk VaR Model (MRV-2021-020) is used by the Markets Risk function to
+compute 1-day 99% Value-at-Risk for the trading book. It is a historical
+simulation model implemented in C++ with Python wrappers.
+
+Inputs are position data from the trading systems and 500 days of historical
+market data. Outputs are VaR and Expected Shortfall estimates at portfolio and
+desk level. Downstream uses include limit monitoring and regulatory capital
+calculations.
+
+The model was last validated on 2023-04-12 according to the validation tracker.
+However, the annual model review document lists the most recent validation as
+2024-09-30.
+
+The model is in production. Monitoring includes daily backtesting and monthly
+independent replication.

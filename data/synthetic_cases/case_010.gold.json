@@ -1,0 +1,18 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "stated",
+    "methodology": "stated",
+    "input_data": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "model_status": "stated",
+    "monitoring_approach": "stated"
+  },
+  "must_not_be_stated": [
+    "last_validation_date"
+  ],
+  "notes": "Two conflicting validation dates (2023-04-12 vs 2024-09-30). The extractor must not silently pick one. last_validation_date must remain unknown. A contradiction should be surfaced in the contradictions field if the extractor is behaving correctly, but we do not require it in the hard assertions because prompt behaviour may vary."
+}
