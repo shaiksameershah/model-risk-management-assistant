@@ -1,0 +1,27 @@
+{
+  "expected_status": {
+    "business_purpose": "stated"
+  },
+  "must_not_be_stated": [
+    "model_name",
+    "model_id",
+    "business_function",
+    "model_owner",
+    "business_owner",
+    "development_team",
+    "model_type",
+    "methodology",
+    "input_data",
+    "data_sources",
+    "output_variables",
+    "downstream_uses",
+    "model_status",
+    "validation_status",
+    "last_validation_date",
+    "monitoring_approach",
+    "known_weaknesses",
+    "third_party_dependencies",
+    "proposed_risk_considerations"
+  ],
+  "notes": "Single sentence. Only purpose is extractable. Extreme graceful-degradation case."
+}
