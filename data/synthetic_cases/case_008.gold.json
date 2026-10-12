@@ -1,0 +1,18 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "stated",
+    "methodology": "stated",
+    "input_data": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "model_status": "stated",
+    "last_validation_date": "stated",
+    "monitoring_approach": "stated",
+    "key_assumptions": "stated"
+  },
+  "must_not_be_stated": [],
+  "notes": "Date is '15 March 2024' — the extractor must normalize to a date representation. The DATE_RE in the guard covers this pattern."
+}

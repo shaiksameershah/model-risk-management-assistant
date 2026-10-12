@@ -1,0 +1,14 @@
+The Interest Rate Risk Model (IRR-2020-014) is used by the Treasury function to
+measure the sensitivity of the bank's net interest income to parallel and
+non-parallel yield curve shifts. It is a deterministic scenario-based model
+implemented in MATLAB.
+
+Inputs are the current balance sheet position, contractual cash flow schedules,
+and yield curve scenarios from the risk systems. Outputs are projected NII at
+multiple time horizons and across defined scenarios. Downstream uses include
+ALCO reporting and IRRBB regulatory submissions.
+
+The model was last validated on 15 March 2024. It is in production. Monitoring
+includes monthly sensitivity re-runs and quarterly independent replication.
+Known assumption: constant prepayment rates across scenarios; this assumption is
+documented in the model methodology note.
