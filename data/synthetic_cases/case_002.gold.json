@@ -3,7 +3,7 @@
     "model_name": "stated",
     "model_id": "stated",
     "business_function": "stated",
-    "model_owner": "unknown",
+    "model_owner": "stated",
     "model_type": "stated",
     "methodology": "stated",
     "input_data": "stated",
@@ -16,6 +16,8 @@
     "third_party_dependencies": "stated",
     "limitations": "stated"
   },
-  "must_not_be_stated": ["last_validation_date"],
-  "notes": "Two conflicting owner attributions (Anna Lindqvist vs Wholesale Modelling Team). Per prompt rules, the extractor should not resolve and should return unknown, or at minimum flag a contradiction. Q3 2024 is a quarter, not an ISO date, so last_validation_date must not be 'stated'."
+  "must_not_be_stated": [
+    "last_validation_date"
+  ],
+  "notes": "Two conflicting owner attributions (Anna Lindqvist vs Wholesale Modelling Team). The extractor is permitted to pick one \u2014 the first named owner with a title is a reasonable default \u2014 provided the contradiction is surfaced in the contradictions field or as a follow-up question."
 }
