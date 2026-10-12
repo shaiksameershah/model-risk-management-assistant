@@ -1,0 +1,28 @@
+{
+  "expected_status": {
+    "business_purpose": "stated",
+    "intended_use": "stated",
+    "business_function": "stated"
+  },
+  "must_not_be_stated": [
+    "model_name",
+    "model_id",
+    "model_owner",
+    "business_owner",
+    "development_team",
+    "model_type",
+    "methodology",
+    "input_data",
+    "data_sources",
+    "output_variables",
+    "downstream_uses",
+    "model_status",
+    "validation_status",
+    "last_validation_date",
+    "monitoring_approach",
+    "known_weaknesses",
+    "third_party_dependencies",
+    "proposed_risk_considerations"
+  ],
+  "notes": "Minimal description. Only purpose and function are stated. Everything else must be unknown. This case tests graceful degradation — the extractor must not invent fields to fill the record."
+}

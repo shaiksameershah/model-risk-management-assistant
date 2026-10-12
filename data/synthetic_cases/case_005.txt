@@ -1,0 +1,3 @@
+The Customer Churn Propensity Model estimates the likelihood that a retail banking
+customer will close their account within the next 90 days. It is used by the Retail
+Banking business function to prioritise retention campaigns.
