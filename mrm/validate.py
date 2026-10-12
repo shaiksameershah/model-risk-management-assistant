@@ -87,9 +87,45 @@ def _ratio_match(needle: str, haystack: str, threshold: float) -> bool:
     return False
 
 
+_PREFIX_PATTERNS = [
+    re.compile(r"^\s*verbatim\s*:\s*", re.IGNORECASE),
+    re.compile(r"^\s*quoted\s*:\s*", re.IGNORECASE),
+    re.compile(r"^\s*quoted\s+", re.IGNORECASE),
+    re.compile(r"^\s*inferred\s*:\s*", re.IGNORECASE),
+    re.compile(r"^\s*contradiction\s*:\s*", re.IGNORECASE),
+    re.compile(r"^\s*evidence\s*:\s*", re.IGNORECASE),
+    re.compile(r"^\s*source\s*:\s*", re.IGNORECASE),
+    re.compile(r"^\s*from\s+source\s*:\s*", re.IGNORECASE),
+]
+
+
+def _clean_evidence(quote: str) -> str:
+    """Strip model-added prefixes and surrounding quotes from an evidence string."""
+    if not quote:
+        return ""
+    s = quote.strip()
+    # Peel prefixes repeatedly in case the model stacked them.
+    changed = True
+    while changed:
+        changed = False
+        for pat in _PREFIX_PATTERNS:
+            new_s = pat.sub("", s, count=1)
+            if new_s != s:
+                s = new_s
+                changed = True
+    # Peel matching surrounding quotes (single, double, or fancy).
+    s = s.strip()
+    quote_pairs = [('"', '"'), ("'", "'"), ("\u201c", "\u201d"), ("\u2018", "\u2019")]
+    for left, right in quote_pairs:
+        if s.startswith(left) and s.endswith(right) and len(s) > len(left) + len(right):
+            s = s[len(left):-len(right)]
+            break
+    return s.strip()
+
+
 def _evidence_ok(quote: str, source: str) -> bool:
     """True if the quote is grounded in the source."""
-    clean = quote.replace("INFERRED: ", "").replace("CONTRADICTION: ", "").strip()
+    clean = _clean_evidence(quote)
     if not clean:
         return False
     if _substring_match(clean, source):

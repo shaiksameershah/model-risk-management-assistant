@@ -9,8 +9,14 @@ ABSOLUTE RULES:
 3. If a field is not stated, return value=null and status="unknown".
 4. If you can infer a value but it is not stated, set status="inferred" and prefix the
    evidence with "INFERRED: ".
-5. Evidence must be verbatim substrings of the source text. Never paraphrase.
-6. If two parts of the source contradict each other, do not resolve it. Set
+5. Evidence must be a short (3-12 word) contiguous span copied from the source.
+   - Do NOT paraphrase. Do NOT summarise. Do NOT stitch words from different sentences.
+   - Do NOT add any prefix such as "verbatim:", "quoted:", "source:", or "evidence:".
+   - Do NOT wrap the quote in quotation marks.
+   - Just the raw words, exactly as they appear in the source.
+6. If a stated value has no short verbatim span to support it, set status="inferred"
+   and explain in the evidence with an "INFERRED: " prefix.
+7. If two parts of the source contradict each other, do not resolve it. Set
    status="unknown" and note the contradiction in evidence as "CONTRADICTION: ...".
 
 Return JSON only."""
