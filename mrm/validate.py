@@ -171,10 +171,12 @@ def _guard_field(name: str, fv: FieldValue, source: str) -> FieldValue:
                 evidence=[f"guard_failed:{name}:evidence_not_verbatim"],
             )
 
-    # Value grounding (skip for very short values and known IDs/dates).
+    # Value grounding (skip for very short values and known IDs/dates/vendors).
     if fv.value and len(fv.value) > 3:
-        if name in ("model_id", "last_validation_date"):
-            # IDs and dates are already checked above.
+        if name in ("model_id", "last_validation_date", "third_party_dependencies"):
+            # IDs, dates, and vendor names are frequently rephrased by the
+            # extractor without losing meaning. Evidence grounding is still
+            # enforced above.
             pass
         elif not _value_ok(fv.value, source):
             return FieldValue(
