@@ -1,0 +1,22 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "stated",
+    "methodology": "stated",
+    "input_data": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "model_status": "stated",
+    "monitoring_approach": "stated",
+    "known_weaknesses": "stated",
+    "limitations": "stated",
+    "third_party_dependencies": "stated"
+  },
+  "must_not_be_stated": [
+    "last_validation_date",
+    "remediation_actions"
+  ],
+  "notes": "Model has never been validated. validation_status: the source explicitly says 'never been validated', which is a positive statement about validation state — could reasonably be stated OR unknown. Do not assert on it in gold. last_validation_date must remain unknown (no date exists). remediation_actions must remain unknown (source says nothing is planned)."
+}

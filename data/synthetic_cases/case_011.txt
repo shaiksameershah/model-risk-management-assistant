@@ -1,0 +1,15 @@
+The ESG Portfolio Screening Model (ESG-2024-031) is used by the Sustainable
+Finance function to screen corporate lending exposures against the bank's
+sustainability policy framework. It applies a rules-based scoring methodology
+combining sector classifications, third-party ESG ratings, and internal policy
+overrides.
+
+Inputs are exposure-level corporate loan data, third-party ESG ratings from two
+providers, and the policy framework reference tables. Outputs are ESG classification
+labels (Red, Amber, Green) per exposure. Downstream uses include portfolio
+reporting, regulatory disclosures, and client engagement prioritisation.
+
+The model was deployed to production in 2024-06. It has never been validated and
+no validation is currently planned. Monitoring is limited to quarterly rule-change
+review. Known limitation: dependence on third-party ESG ratings introduces provider
+methodology risk. The provider dependency has been flagged for review.
