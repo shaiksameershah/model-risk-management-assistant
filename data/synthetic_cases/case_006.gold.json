@@ -1,0 +1,19 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "stated",
+    "input_data": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "model_status": "stated",
+    "validation_status": "stated",
+    "known_weaknesses": "stated"
+  },
+  "must_not_be_stated": [
+    "last_validation_date",
+    "proposed_risk_considerations"
+  ],
+  "notes": "LLM-based system. 'Fine-tuned on internal call transcripts' is stated model_type. 'Validation is currently in progress' is validation_status='stated'. There is NO last_validation_date — validation hasn't completed. Hallucination risk and bias concerns ARE stated weaknesses. No fabricated risk rating."
+}

@@ -1,0 +1,14 @@
+The Customer Service Summarisation Model (CSS-2025-002) is an LLM-based system
+built on an open-source foundation model fine-tuned on internal call transcripts.
+It is used by the Contact Centre Operations function to generate short summaries
+of customer calls for agent review.
+
+Inputs are call transcripts and associated metadata (call duration, product line,
+customer segment). Outputs are 3-5 sentence summaries and a small set of
+topic tags. Downstream uses include quality assurance sampling and compliance
+review.
+
+The model is in production in a limited pilot. Validation is currently in progress;
+the first formal validation has not yet been completed. Known concerns include
+hallucination risk on low-quality transcripts and potential bias in topic tagging
+across customer segments, both under evaluation by the second line.
