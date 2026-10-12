@@ -24,6 +24,14 @@ Return JSON only."""
 
 EXTRACTION_USER = """Extract these fields: {fields}
 
+FIELD DEFINITIONS (use to disambiguate):
+- business_owner: the senior business sponsor accountable for the model's use.
+- model_owner: the named individual accountable for the model's technical quality.
+  Do NOT copy business_owner into model_owner, or vice versa, unless the source
+  explicitly names the same person for both roles.
+- validation_status: the state of validation (e.g. "validated", "not yet validated",
+  "in validation"). Do NOT set this from a validation DATE alone.
+
 For each field return:
 {{ "value": string|null, "status": "stated"|"inferred"|"unknown",
    "evidence": [verbatim quotes], "confidence": 0.0-1.0 }}
