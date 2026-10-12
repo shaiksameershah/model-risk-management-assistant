@@ -1,0 +1,16 @@
+The AML Transaction Monitoring Model (AML-2022-008) is a rules-based and
+gradient-boosted hybrid model operated by the Financial Crime Compliance function.
+It generates alerts for potentially suspicious transactions, which are reviewed by
+analysts. The development team is the Financial Crime Analytics group.
+
+Inputs are retail and commercial transaction records from the core banking platform
+and a curated sanctions and PEP list. Outputs are per-customer suspicion scores and
+alert flags. Downstream uses include case generation for the investigations team.
+
+Given the high sensitivity of the outputs, the model is subject to enhanced oversight.
+The model is currently in production. It was last validated on 2023-11-02 and is
+monitored through monthly alert-rate and precision reviews.
+
+Known weakness: elevated false-positive rate in the small-business segment, currently
+under remediation. The team has documented a plan to retune thresholds in the next
+quarter.

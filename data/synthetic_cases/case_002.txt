@@ -1,0 +1,16 @@
+The Wholesale Credit Stress Model (WCS-2023-041) is used by the Corporate Banking
+business function to project credit losses under adverse scenarios. The model owner
+is Anna Lindqvist, Director, Credit Risk Analytics. Separately, ownership is listed
+as the "Wholesale Modelling Team" in the development plan.
+
+The model is a Monte Carlo simulation implemented in Python. Inputs are the internal
+loan book, macroeconomic scenarios from the Treasury scenario library, and historical
+default and recovery rates. Outputs are projected credit losses at the portfolio level
+and by industry segment. Downstream uses include capital planning and stress-testing
+submissions.
+
+The model was last validated in Q3 2024. It is currently in production. Monitoring
+includes quarterly backtesting of projected versus realised losses.
+
+No third-party model dependencies are used. Key limitation: coverage is limited to the
+corporate loan portfolio and excludes traded credit products.

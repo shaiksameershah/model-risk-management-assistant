@@ -1,0 +1,21 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_owner": "unknown",
+    "model_type": "stated",
+    "methodology": "stated",
+    "input_data": "stated",
+    "data_sources": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "validation_status": "stated",
+    "model_status": "stated",
+    "monitoring_approach": "stated",
+    "third_party_dependencies": "stated",
+    "limitations": "stated"
+  },
+  "must_not_be_stated": ["last_validation_date"],
+  "notes": "Two conflicting owner attributions (Anna Lindqvist vs Wholesale Modelling Team). Per prompt rules, the extractor should not resolve and should return unknown, or at minimum flag a contradiction. Q3 2024 is a quarter, not an ISO date, so last_validation_date must not be 'stated'."
+}

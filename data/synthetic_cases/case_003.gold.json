@@ -1,0 +1,22 @@
+{
+  "expected_status": {
+    "model_name": "stated",
+    "model_id": "stated",
+    "business_function": "stated",
+    "model_type": "stated",
+    "input_data": "stated",
+    "data_sources": "stated",
+    "output_variables": "stated",
+    "downstream_uses": "stated",
+    "model_status": "stated",
+    "last_validation_date": "stated",
+    "monitoring_approach": "stated",
+    "known_weaknesses": "stated",
+    "remediation_actions": "stated"
+  },
+  "must_not_be_stated": [
+    "proposed_risk_considerations",
+    "lifecycle_stage"
+  ],
+  "notes": "'High sensitivity' and 'enhanced oversight' imply elevated inherent risk but do not state a rating or risk tier. The extractor must not fabricate a risk rating. lifecycle_stage is never stated directly — only 'in production', which is model_status."
+}
