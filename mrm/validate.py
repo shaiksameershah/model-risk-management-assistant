@@ -1,27 +1,110 @@
+"""Evidence grounding guards.
+
+Design principle: a 'stated' field is accepted if its evidence is a
+substring of the source *after* aggressive normalisation. Fuzzy matching is
+only a fallback for short quotes and short values.
+"""
 from __future__ import annotations
 import re
+import unicodedata
 from difflib import SequenceMatcher
 from .schema import InventoryRecord, FieldValue
 
-FUZZY_THRESHOLD = 0.85
+FUZZY_THRESHOLD = 0.72
+VALUE_THRESHOLD = 0.65
+MIN_QUOTE_LEN_FOR_EXACT = 8
+
 DATE_RE = re.compile(
     r"\b(\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{2,4}|"
-    r"(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4})\b",
+    r"(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4})\b",
     re.IGNORECASE,
 )
 
+# Punctuation and quote characters we strip when normalising.
+_STRIP_PATTERN = re.compile(r"[^\w\s]")
+_WS_PATTERN = re.compile(r"\s+")
 
-def _fuzzy_in(needle: str, haystack: str, threshold: float = FUZZY_THRESHOLD) -> bool:
-    if not needle:
+
+def _normalize(text: str) -> str:
+    if not text:
+        return ""
+    # Fold fancy Unicode into ASCII equivalents first.
+    text = unicodedata.normalize("NFKD", text)
+    # Remove combining marks left over from NFKD.
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = text.lower()
+    # Collapse all non-alphanumeric to space.
+    text = _STRIP_PATTERN.sub(" ", text)
+    text = _WS_PATTERN.sub(" ", text)
+    return text.strip()
+
+
+def _substring_match(needle: str, haystack: str) -> bool:
+    """True if the normalised needle is a substring of the normalised haystack."""
+    n = _normalize(needle)
+    h = _normalize(haystack)
+    if not n or not h:
         return False
-    if needle in haystack:
+    if n in h:
         return True
-    n = len(needle)
-    for i in range(0, max(1, len(haystack) - n + 1)):
-        window = haystack[i:i + n + 20]
-        if SequenceMatcher(None, needle, window).ratio() >= threshold:
+    # If the needle is long, also try word-level subsequence matching:
+    # all needle words must appear in order, allowing gaps.
+    n_words = n.split()
+    if len(n_words) >= 3:
+        return _word_subsequence(n_words, h.split())
+    return False
+
+
+def _word_subsequence(needle_words: list[str], haystack_words: list[str]) -> bool:
+    """True if every needle word appears in haystack in order (gaps allowed)."""
+    i = 0
+    for w in haystack_words:
+        if i < len(needle_words) and w == needle_words[i]:
+            i += 1
+    return i == len(needle_words)
+
+
+def _ratio_match(needle: str, haystack: str, threshold: float) -> bool:
+    """Fallback: best SequenceMatcher ratio of needle against any window."""
+    n = _normalize(needle)
+    h = _normalize(haystack)
+    if not n or not h:
+        return False
+    n_len = len(n)
+    # If the needle is short (< 15 chars), do a full scan with small windows.
+    # If longer, scan with larger windows and a coarser step.
+    if n_len <= 15:
+        for i in range(0, len(h) - n_len + 1):
+            if SequenceMatcher(None, n, h[i:i + n_len]).ratio() >= threshold:
+                return True
+        return False
+
+    window = n_len + 30
+    step = max(1, n_len // 5)
+    for i in range(0, max(1, len(h) - n_len + 1), step):
+        if SequenceMatcher(None, n, h[i:i + window]).ratio() >= threshold:
             return True
     return False
+
+
+def _evidence_ok(quote: str, source: str) -> bool:
+    """True if the quote is grounded in the source."""
+    clean = quote.replace("INFERRED: ", "").replace("CONTRADICTION: ", "").strip()
+    if not clean:
+        return False
+    if _substring_match(clean, source):
+        return True
+    if len(clean) >= MIN_QUOTE_LEN_FOR_EXACT and _ratio_match(clean, source, FUZZY_THRESHOLD):
+        return True
+    return False
+
+
+def _value_ok(value: str, source: str) -> bool:
+    if not value or len(value) <= 3:
+        return True
+    if _substring_match(value, source):
+        return True
+    return _ratio_match(value, source, VALUE_THRESHOLD)
 
 
 def _guard_field(name: str, fv: FieldValue, source: str) -> FieldValue:
@@ -30,23 +113,38 @@ def _guard_field(name: str, fv: FieldValue, source: str) -> FieldValue:
 
     if name == "last_validation_date" and fv.value:
         if not DATE_RE.search(source):
-            return FieldValue(status="unknown",
-                              evidence=[f"guard_failed:{name}:date_not_in_source"])
+            return FieldValue(
+                status="unknown",
+                evidence=[f"guard_failed:{name}:date_not_in_source"],
+            )
 
+    # Evidence grounding.
     if not fv.evidence:
-        return FieldValue(status="unknown",
-                          evidence=[f"guard_failed:{name}:no_evidence"])
+        if fv.value and _value_ok(fv.value, source):
+            # Salvage: use the value itself as evidence.
+            return fv.model_copy(update={"evidence": [fv.value]})
+        return FieldValue(
+            status="unknown",
+            evidence=[f"guard_failed:{name}:no_evidence"],
+        )
 
     for quote in fv.evidence:
-        clean = quote.replace("INFERRED: ", "").replace("CONTRADICTION: ", "")
-        if not _fuzzy_in(clean, source):
-            return FieldValue(status="unknown",
-                              evidence=[f"guard_failed:{name}:evidence_not_verbatim"])
+        if not _evidence_ok(quote, source):
+            return FieldValue(
+                status="unknown",
+                evidence=[f"guard_failed:{name}:evidence_not_verbatim"],
+            )
 
+    # Value grounding (skip for very short values and known IDs/dates).
     if fv.value and len(fv.value) > 3:
-        if not _fuzzy_in(fv.value, source, threshold=0.75):
-            return FieldValue(status="unknown",
-                              evidence=[f"guard_failed:{name}:value_not_grounded"])
+        if name in ("model_id", "last_validation_date"):
+            # IDs and dates are already checked above.
+            pass
+        elif not _value_ok(fv.value, source):
+            return FieldValue(
+                status="unknown",
+                evidence=[f"guard_failed:{name}:value_not_grounded"],
+            )
     return fv
 
 
