@@ -1,0 +1,13 @@
+The Trade Surveillance Alert Scoring Model (TSA-2021-005) is used by the Markets
+Compliance function to rank post-trade surveillance alerts for analyst review.
+It is a vendor-supplied system from Acme Surveillance Ltd; the bank has no source
+code access and relies on the vendor's model documentation.
+
+Inputs are trade and order records from the equities and fixed-income trading
+platforms, plus counterparty reference data from the bank's golden source. Outputs
+are alert risk scores on a 0-100 scale. Downstream uses include prioritisation of
+the analyst review queue.
+
+The model is in production. It was last reviewed by the bank in 2023-08. The vendor
+performs its own validation, and the bank has a periodic attestation process.
+Monitoring includes alert volume, precision, and coverage reviews.
