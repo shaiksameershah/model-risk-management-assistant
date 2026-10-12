@@ -1,6 +1,6 @@
 from __future__ import annotations
-from typing import Literal, Optional
-from pydantic import BaseModel, Field
+from typing import Any, Literal, Optional
+from pydantic import BaseModel, Field, field_validator
 
 FactStatus = Literal["stated", "inferred", "unknown"]
 
@@ -10,6 +10,40 @@ class FieldValue(BaseModel):
     status: FactStatus = "unknown"
     evidence: list[str] = Field(default_factory=list)
     confidence: float = 0.0
+
+    @field_validator("value", mode="before")
+    @classmethod
+    def _coerce_value(cls, v: Any) -> Optional[str]:
+        if v is None:
+            return None
+        if isinstance(v, str):
+            return v.strip() or None
+        if isinstance(v, list):
+            parts = [str(x).strip() for x in v if str(x).strip()]
+            return " ".join(parts) if parts else None
+        if isinstance(v, (int, float, bool)):
+            return str(v)
+        return None
+
+    @field_validator("evidence", mode="before")
+    @classmethod
+    def _coerce_evidence(cls, v: Any) -> list[str]:
+        if v is None:
+            return []
+        if isinstance(v, str):
+            return [v] if v.strip() else []
+        if isinstance(v, list):
+            return [str(x) for x in v if str(x).strip()]
+        return []
+
+    @field_validator("confidence", mode="before")
+    @classmethod
+    def _coerce_confidence(cls, v: Any) -> float:
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            return 0.0
+        return max(0.0, min(1.0, f))
 
 
 class InventoryRecord(BaseModel):
