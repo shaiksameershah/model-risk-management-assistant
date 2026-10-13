@@ -192,6 +192,18 @@ def apply_guards(record: InventoryRecord, source: str) -> InventoryRecord:
             fv = FieldValue.model_validate(value)
             setattr(record, name, _guard_field(name, fv, source))
 
+    # Semantic guard: model_type must not equal model_name. If they match,
+    # the extractor has almost certainly just copied the identifier.
+    if (record.model_type.status == "stated"
+            and record.model_name.status == "stated"
+            and record.model_type.value
+            and record.model_name.value
+            and _normalize(record.model_type.value) == _normalize(record.model_name.value)):
+        record.model_type = FieldValue(
+            status="unknown",
+            evidence=["guard_failed:model_type:identical_to_model_name"],
+        )
+
     for name, value in record.model_dump().items():
         if isinstance(value, dict) and value.get("status") == "unknown":
             for ev in value.get("evidence", []):
