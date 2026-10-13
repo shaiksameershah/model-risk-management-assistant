@@ -18,6 +18,19 @@ ABSOLUTE RULES:
    and explain in the evidence with an "INFERRED: " prefix.
 7. If two parts of the source contradict each other, do not resolve it. Set
    status="unknown" and note the contradiction in evidence as "CONTRADICTION: ...".
+8. Dates: if the source gives two different dates for the same event (e.g. two
+   validation dates), the corresponding date field must be status="unknown". Do
+   NOT pick one. Note both values in the contradiction.
+9. Do NOT copy the model name into model_type. The model name is an identifier;
+   model_type describes the modelling technique (e.g. "logistic regression",
+   "Monte Carlo simulation", "gradient-boosted tree"). If the source names the
+   model but does not describe its technique, model_type must be unknown.
+10. Do NOT infer model_status ("active", "in production") from verbs like
+    "assesses" or "estimates". Only use language the source actually provides
+    about the model's operational state.
+11. business_function must be a named organisational function (e.g. "Retail
+    Banking", "Treasury"). If the source only describes what the model does,
+    not which function uses it, business_function must be unknown.
 
 Return JSON only."""
 
