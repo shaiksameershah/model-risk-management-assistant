@@ -103,3 +103,28 @@ def test_distinct_model_type_survives():
     )
     apply_guards(r, source)
     assert r.model_type.status == "stated"
+
+
+def test_input_data_from_assess_verb_is_rejected():
+    source = "The Climate Transition Risk Model assesses the bank's corporate lending portfolio."
+    r = InventoryRecord()
+    r.input_data = FieldValue(
+        value="bank's corporate lending portfolio",
+        status="stated",
+        evidence=["assesses the bank's corporate lending portfolio"],
+    )
+    apply_guards(r, source)
+    assert r.input_data.status == "unknown"
+    assert any("verb_of_analysis" in e for e in r.input_data.evidence)
+
+
+def test_input_data_from_explicit_input_language_survives():
+    source = "Inputs are position data from the trading systems and 500 days of historical market data."
+    r = InventoryRecord()
+    r.input_data = FieldValue(
+        value="position data from the trading systems",
+        status="stated",
+        evidence=["Inputs are position data from the trading systems"],
+    )
+    apply_guards(r, source)
+    assert r.input_data.status == "stated"
