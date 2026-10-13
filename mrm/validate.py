@@ -153,6 +153,17 @@ def _guard_field(name: str, fv: FieldValue, source: str) -> FieldValue:
                 status="unknown",
                 evidence=[f"guard_failed:{name}:date_not_in_source"],
             )
+        # If the source contains two or more distinct dates, refuse to pick one.
+        all_dates = set(DATE_RE.findall(source))
+        all_dates.discard("")  # group(0) fallback if regex has groups
+        # DATE_RE has multiple groups; findall returns tuples when grouped.
+        # Use finditer to get full matches cleanly.
+        full_dates = {m.group(0) for m in DATE_RE.finditer(source)}
+        if len(full_dates) >= 2:
+            return FieldValue(
+                status="unknown",
+                evidence=[f"guard_failed:{name}:multiple_dates_in_source:{sorted(full_dates)}"],
+            )
 
     # Evidence grounding.
     if not fv.evidence:
