@@ -1,3 +1,4 @@
+"""Thin Ollama client with tolerant JSON extraction from model responses."""
 from __future__ import annotations
 import json
 import re

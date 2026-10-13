@@ -1,3 +1,4 @@
+"""Two-pass extraction pipeline: per-field-group extraction + gap analysis."""
 from __future__ import annotations
 import logging
 from . import config, prompts

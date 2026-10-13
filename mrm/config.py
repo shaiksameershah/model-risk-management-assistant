@@ -1,3 +1,4 @@
+"""Configuration: model name, output paths, field groups, framework mapping."""
 from pathlib import Path
 
 MODEL_NAME = "deepseek-r1:7b"

@@ -1,3 +1,4 @@
+"""Pydantic schemas for inventory records and LLM response envelopes."""
 from __future__ import annotations
 from typing import Any, Literal, Optional
 from pydantic import BaseModel, Field, field_validator

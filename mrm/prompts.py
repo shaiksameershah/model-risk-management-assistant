@@ -1,3 +1,4 @@
+"""System and user prompts for extraction and gap analysis."""
 EXTRACTION_SYSTEM = """You are an information extraction assistant for a financial-services
 Model Risk Management (MRM) function. You transform model descriptions into structured
 inventory fields.

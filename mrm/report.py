@@ -1,3 +1,4 @@
+"""JSON, Markdown, and CSV writers for review-ready drafts."""
 from __future__ import annotations
 import csv
 from pathlib import Path
