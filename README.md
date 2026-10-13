@@ -93,3 +93,21 @@ accurate; remember to switch back before citing numbers.
   regulatory compliance. SR 11-7 was superseded in April 2026; the schema
   follows a familiar inventory structure and can be mapped to an
   institution-specific framework via `mrm/config.py`.
+
+## Streamlit UI
+
+A browser-based review UI is available:
+
+    streamlit run streamlit_app.py
+
+Opens at http://localhost:8501. Features:
+
+- Paste a model description, upload a `.txt`, or load a bundled example
+- Progress indicator during extraction
+- Side-by-side source and draft, with grouped fields
+- Inline editing of value and status per field
+- Guard failures and contradictions surfaced in dedicated panels
+- Download JSON, Markdown, or CSV exports
+
+The Streamlit app shares its extraction pipeline with the CLI (`mrm/pipeline.py`),
+so results are identical.
