@@ -67,3 +67,39 @@ def test_evidence_wrapped_in_double_quotes_is_accepted():
     )
     apply_guards(r, source)
     assert r.model_name.status == "stated"
+
+
+def test_model_type_identical_to_model_name_is_nulled():
+    source = "The Customer Churn Propensity Model estimates churn."
+    r = InventoryRecord()
+    r.model_name = FieldValue(
+        value="Customer Churn Propensity Model",
+        status="stated",
+        evidence=["The Customer Churn Propensity Model"],
+    )
+    r.model_type = FieldValue(
+        value="Customer Churn Propensity Model",
+        status="stated",
+        evidence=["The Customer Churn Propensity Model"],
+    )
+    apply_guards(r, source)
+    assert r.model_type.status == "unknown"
+    assert any("identical_to_model_name" in e for e in r.model_type.evidence)
+
+
+def test_distinct_model_type_survives():
+    source = ("The Retail Credit Scorecard is a logistic regression model "
+              "used for PD estimation.")
+    r = InventoryRecord()
+    r.model_name = FieldValue(
+        value="Retail Credit Scorecard",
+        status="stated",
+        evidence=["The Retail Credit Scorecard"],
+    )
+    r.model_type = FieldValue(
+        value="logistic regression",
+        status="stated",
+        evidence=["a logistic regression model"],
+    )
+    apply_guards(r, source)
+    assert r.model_type.status == "stated"
