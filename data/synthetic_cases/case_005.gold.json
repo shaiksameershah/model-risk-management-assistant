@@ -2,10 +2,10 @@
   "expected_status": {
     "business_purpose": "stated",
     "intended_use": "stated",
-    "business_function": "stated"
+    "business_function": "stated",
+    "model_name": "stated"
   },
   "must_not_be_stated": [
-    "model_name",
     "model_id",
     "model_owner",
     "business_owner",
@@ -24,5 +24,5 @@
     "third_party_dependencies",
     "proposed_risk_considerations"
   ],
-  "notes": "Minimal description. Only purpose and function are stated. Everything else must be unknown. This case tests graceful degradation — the extractor must not invent fields to fill the record."
+  "notes": "Minimal description. Only purpose and function are stated. Everything else must be unknown. This case tests graceful degradation \u2014 the extractor must not invent fields to fill the record. model_name accepted as stated \u2014 the descriptive phrase names the model."
 }

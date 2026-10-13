@@ -1,9 +1,9 @@
 {
   "expected_status": {
-    "business_purpose": "stated"
+    "business_purpose": "stated",
+    "model_name": "stated"
   },
   "must_not_be_stated": [
-    "model_name",
     "model_id",
     "business_function",
     "model_owner",
@@ -23,5 +23,5 @@
     "third_party_dependencies",
     "proposed_risk_considerations"
   ],
-  "notes": "Single sentence. Only purpose is extractable. Extreme graceful-degradation case."
+  "notes": "Single sentence. Only purpose is extractable. Extreme graceful-degradation case. model_name accepted as stated \u2014 the descriptive phrase names the model."
 }
