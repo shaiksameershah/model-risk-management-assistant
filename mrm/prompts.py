@@ -31,6 +31,11 @@ ABSOLUTE RULES:
 11. business_function must be a named organisational function (e.g. "Retail
     Banking", "Treasury"). If the source only describes what the model does,
     not which function uses it, business_function must be unknown.
+12. input_data must be grounded in explicit input language — sentences using
+    "inputs are", "takes as input", "uses", "consumes", "fed by", or equivalent.
+    Do NOT mark input_data as "stated" just because the source mentions a
+    portfolio, book, or dataset the model operates on. If in doubt, use
+    "inferred".
 
 Return JSON only."""
 
