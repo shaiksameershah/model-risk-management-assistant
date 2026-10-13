@@ -143,9 +143,34 @@ def _value_ok(value: str, source: str) -> bool:
     return _ratio_match(value, source, VALUE_THRESHOLD)
 
 
+_ASSESS_VERBS = (
+    "assesses", "assess", "evaluates", "estimates", "measures",
+    "scores", "predicts", "ranks", "screens", "monitors",
+)
+
+
+def _evidence_uses_assess_verb(fv: FieldValue) -> bool:
+    """True if any evidence quote uses a verb-of-analysis without 'input' language."""
+    low_evidence = " ".join(fv.evidence or []).lower()
+    low_value = (fv.value or "").lower()
+    if any(v in low_evidence for v in _ASSESS_VERBS):
+        # If the same evidence also contains explicit input language, allow it.
+        input_markers = ("input", "inputs", "uses", "consumes", "fed by", "takes as")
+        if not any(m in low_evidence for m in input_markers):
+            return True
+    return False
+
+
 def _guard_field(name: str, fv: FieldValue, source: str) -> FieldValue:
     if fv.status != "stated":
         return fv
+
+    # Semantic guard: input_data must be grounded in explicit input language.
+    if name == "input_data" and _evidence_uses_assess_verb(fv):
+        return FieldValue(
+            status="unknown",
+            evidence=[f"guard_failed:input_data:verb_of_analysis_not_input"],
+        )
 
     if name == "last_validation_date" and fv.value:
         if not DATE_RE.search(source):
